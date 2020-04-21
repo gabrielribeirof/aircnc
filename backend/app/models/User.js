@@ -13,11 +13,13 @@ const UserSchema = new mongoose.Schema({
   },
   spots: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Spot'
+    ref: 'Spot',
+    required: true
   }],
   bookings: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Booking'
+    ref: 'Booking',
+    required: true
   }]
 }, {
   timestamps: true
