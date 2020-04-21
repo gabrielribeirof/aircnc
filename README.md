@@ -11,9 +11,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/languages/count/gabrielribeirof/teste">
+  <img src="https://img.shields.io/github/languages/count/gabrielribeirof/aircnc">
 
-  <img src="https://img.shields.io/github/repo-size/gabrielribeirof/teste">
+  <img src="https://img.shields.io/github/repo-size/gabrielribeirof/aircnc">
 
   <img src="https://img.shields.io/badge/license-MIT-brightgreen">
 </p>
