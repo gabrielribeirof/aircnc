@@ -1,4 +1,7 @@
 const { Router } = require('express');
+const multer = require('multer');
+
+const uploadConfig = require('./config/upload');
 
 const UserController = require('./app/controllers/UserController');
 const SpotController = require('./app/controllers/SpotController');
@@ -7,6 +10,7 @@ const ApprovalController = require('./app/controllers/ApprovalController');
 const RejectionController = require('./app/controllers/RejectionController');
 
 const routes = Router();
+const upload = multer(uploadConfig);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:user_id', UserController.show);
@@ -16,8 +20,8 @@ routes.delete('/users/:user_id', UserController.delete);
 
 routes.get('/spots', SpotController.index);
 routes.get('/spots/:spot_id', SpotController.show);
-routes.post('/spots', SpotController.store);
-routes.put('/spots/:spot_id', SpotController.update);
+routes.post('/spots', upload.single('thumbnail'), SpotController.store);
+routes.put('/spots/:spot_id', upload.single('thumbnail'), SpotController.update);
 routes.delete('/spots/:spot_id', SpotController.delete);
 
 routes.get('/bookings', BookingController.index);
