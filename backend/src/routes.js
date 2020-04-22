@@ -3,6 +3,7 @@ const multer = require('multer');
 
 const uploadConfig = require('./app/middlewares/upload');
 
+const SessionController = require('./app/controllers/SessionController');
 const UserController = require('./app/controllers/UserController');
 const SpotController = require('./app/controllers/SpotController');
 const BookingController = require('./app/controllers/BookingController');
@@ -11,6 +12,8 @@ const RejectionController = require('./app/controllers/RejectionController');
 
 const routes = Router();
 const upload = multer(uploadConfig);
+
+routes.post('/sessions', SessionController.store);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:user_id', UserController.show);
