@@ -27,7 +27,6 @@ routes.delete('/spots/:spot_id', SpotController.delete);
 routes.get('/bookings', BookingController.index);
 routes.get('/bookings/:booking_id', BookingController.show);
 routes.post('/bookings', BookingController.store);
-routes.put('/bookings/:booking_id', BookingController.update);
 routes.delete('/bookings/:booking_id', BookingController.delete);
 
 routes.post('/bookings/:booking_id/approvals', ApprovalController.store);
