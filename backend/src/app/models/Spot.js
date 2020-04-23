@@ -7,9 +7,13 @@ const SpotSchema = new mongoose.Schema({
   },
   price: {
     type: String,
-    require: true
+    required: true
   },
-  thumbnail: String,
+  thumbnail: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'File',
+    required: true
+  },
   tags: [String],
   user: {
     type: mongoose.Schema.Types.ObjectId,
