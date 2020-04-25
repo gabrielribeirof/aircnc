@@ -1,5 +1,4 @@
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const authConfig = require('../../config/auth.json');
@@ -37,16 +36,18 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
 
     try {
       if (await User.findOne({ name }))
         return res.status(400).send({ error: 'Name already exists' });
-    
+
       if (await User.findOne({ email }))
         return res.status(400).send({ error: 'Email already exists' });
 
-      const user = await User.create({ name, email });
+      const user = await User.create({ name, email, password });
+
+      user.password = undefined;
 
       return res.send({
         user,
@@ -62,20 +63,26 @@ module.exports = {
     const { user_id } = req.params;
 
     try {
+      if (req.userID !== user_id)
+        return res.status(403).send({ error: 'Not authorized for this action' });
+      
       const user = await User.findById(user_id);
 
       if (!user)
         return res.status(400).send({ error: 'User not found' });
 
-      if (name !== user.name && !await User.findOne({ name }))
+      if (name !== user.name && await User.findOne({ name }))
         return res.status(400).send({ error: 'Name already exists' });
 
-      if (email !== user.email && !await User.findOne({ email }))
+      if (email !== user.email && await User.findOne({ email }))
         return res.status(400).send({ error: 'Email already exists' });
 
-      const updatedUser = await user.update({ name, email });
+      await user.updateOne({ name, email });
       
-      return res.send(updatedUser);
+      return res.send({
+        name,
+        email
+      });
     } catch (err) {
       return res.status(400).send({ error: 'Error updating user' });
     }
@@ -85,6 +92,9 @@ module.exports = {
     const { user_id } = req.params;
 
     try {
+      if (req.userID !== user_id)
+        return res.status(403).send({ error: 'Not authorized for this action' });
+        
       const user = await User.findOneAndDelete(user_id);
 
       if (!user)
