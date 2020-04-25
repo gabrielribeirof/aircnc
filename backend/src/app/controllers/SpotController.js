@@ -2,6 +2,7 @@ const fs = require('fs');
 
 const Spot = require('../models/Spot');
 const User = require('../models/User');
+const File = require('../models/File');
 
 module.exports = {
   async index(req, res) {
@@ -31,6 +32,7 @@ module.exports = {
 
   async store(req, res) {
     const { name, price, tags } = req.body;
+    const { originalname: fileoriginalname, filename } = req.file;
     const { user_id } = req.headers;
 
     try {
@@ -40,14 +42,17 @@ module.exports = {
         fs.unlinkSync(req.file.path);
         return res.status(400).send({ error: 'User not found' });
       }
-      
-      const { filename } = req.file;
+
+      const file = await File.create({
+        name: fileoriginalname,
+        key: filename
+      });
 
       const spot = await Spot.create({
         user: user_id,
         name,
         price,
-        thumbnail: filename,
+        thumbnail: file.id,
         tags: tags.split(',').map(tag => tag.trim())
       });
 
@@ -69,24 +74,39 @@ module.exports = {
     const { spot_id } = req.params;
 
     try {
-      const spot = await Spot.findById(spot_id);
+      const spot = await Spot.findById(spot_id).populate('thumbnail');
+
+      if (req.userID !== spot.user.id)
+        return res.status(403).send({ error: 'Not authorized for this action' });
 
       if (!spot)
         return res.status(400).send({ error: 'Spot not found' });
 
       if (req.file) {
-        fs.unlinkSync(`/workspace/aircnc/backend/tmp/uploads/${spot.thumbnail}`);
-        const { filename } = req.file;
+        fs.unlinkSync(`/workspace/aircnc/backend/tmp/uploads/${spot.thumbnail.key}`);
+        
+        await File.findByIdAndDelete(spot.thumbnail.id);
+
+        const { originalname: fileoriginalname, filename } = req.file;
+
+        const newFile = await File.create({
+          name: fileoriginalname,
+          key: filekey
+        });
+
+        await spot.updateOne({
+          name,
+          price,
+          thumbnail: newFile.id,
+          tags: tags.split(',').map(tag => tag.trim())
+        });
       } else {
-        const filename = spot.thumbnail;
+        await spot.updateOne({
+          name,
+          price,
+          tags: tags.split(',').map(tag => tag.trim())
+        });
       }
-      
-      await spot.updateOne({
-        name,
-        price,
-        thumbnail: filename,
-        tags: tags.split(',').map(tag => tag.trim())
-      });
 
       return res.send(spot);
     } catch (err) {
@@ -99,6 +119,9 @@ module.exports = {
 
     try {
       const spot = await Spot.findByIdAndDelete(spot_id);
+
+      if (req.userID !== spot.user.id)
+        return res.status(403).send({ error: 'Not authorized for this action' });
 
       fs.unlinkSync(`/workspace/aircnc/backend/tmp/uploads/${spot.thumbnail}`);
 
