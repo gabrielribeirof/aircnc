@@ -11,18 +11,19 @@ module.exports = (req, res, next) => {
     const parts = authHeader.split(' ');
     const [ scheme, token ] = parts;
 
-    if (!parts.length !== 2)
+    if (parts.length !== 2)
       return res.status(401).send({ error: 'Token error' });
 
     if (!/^Bearer$/i.test(scheme))
       return res.status(401).send({ error: 'Token malformatted' });
 
-    jwt.verify(token, authConfig.secret);
+    const decoded = jwt.verify(token, authConfig.secret);
 
-    req.userId = decoded.id;
+    req.userID = decoded.id;
 
     return next();
   } catch (err) {
+    console.log(err)
     return res.status(401).send({ error: 'Token invalid' });
   }
 }
