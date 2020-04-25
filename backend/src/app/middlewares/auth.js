@@ -11,11 +11,7 @@ module.exports = (req, res, next) => {
     const parts = authHeader.split(' ');
     const [ scheme, token ] = parts;
 
-<<<<<<< HEAD
     if (parts.length !== 2)
-=======
-    if (!parts.length !== 2)
->>>>>>> d0ca9d3fe08e84a4b60d5a133c7b580c95d277da
       return res.status(401).send({ error: 'Token error' });
 
     if (!/^Bearer$/i.test(scheme))

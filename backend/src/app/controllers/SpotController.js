@@ -32,11 +32,7 @@ module.exports = {
 
   async store(req, res) {
     const { name, price, tags } = req.body;
-<<<<<<< HEAD
     const { originalname: fileoriginalname, filename } = req.file;
-=======
-    const { originalname: fileoriginalname, filename: filekey } = req.file;
->>>>>>> d0ca9d3fe08e84a4b60d5a133c7b580c95d277da
     const { user_id } = req.headers;
 
     try {
@@ -49,11 +45,7 @@ module.exports = {
 
       const file = await File.create({
         name: fileoriginalname,
-<<<<<<< HEAD
         key: filename
-=======
-        key: filekey
->>>>>>> d0ca9d3fe08e84a4b60d5a133c7b580c95d277da
       });
 
       const spot = await Spot.create({
@@ -83,12 +75,9 @@ module.exports = {
 
     try {
       const spot = await Spot.findById(spot_id).populate('thumbnail');
-<<<<<<< HEAD
 
       if (req.userID !== spot.user.id)
         return res.status(403).send({ error: 'Not authorized for this action' });
-=======
->>>>>>> d0ca9d3fe08e84a4b60d5a133c7b580c95d277da
 
       if (!spot)
         return res.status(400).send({ error: 'Spot not found' });
@@ -97,7 +86,6 @@ module.exports = {
         fs.unlinkSync(`/workspace/aircnc/backend/tmp/uploads/${spot.thumbnail.key}`);
         
         await File.findByIdAndDelete(spot.thumbnail.id);
-<<<<<<< HEAD
 
         const { originalname: fileoriginalname, filename } = req.file;
 
@@ -119,25 +107,6 @@ module.exports = {
           tags: tags.split(',').map(tag => tag.trim())
         });
       }
-=======
-      } else {
-        const filename = spot.thumbnail.id;
-      }
-
-      const { originalname: fileoriginalname, filename: filekey } = req.file;
-
-      const newFile = await File.create({
-        name: fileoriginalname,
-        key: filekey
-      });
-      
-      await spot.updateOne({
-        name,
-        price,
-        thumbnail: newFile.id,
-        tags: tags.split(',').map(tag => tag.trim())
-      });
->>>>>>> d0ca9d3fe08e84a4b60d5a133c7b580c95d277da
 
       return res.send(spot);
     } catch (err) {
