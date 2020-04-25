@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+const User = require('../models/User');
 const authConfig = require('../../config/auth.json');
 
 function generateToken(params = {}) {
@@ -10,22 +11,41 @@ function generateToken(params = {}) {
 }
 
 module.exports = {
-  async store(req, res) {
-    const { email, password } = req.body;
+  async show(req, res) {
+    const authHeader = req.headers.authorization;
 
-    const user = await User.findOne({ email }).select('+password');
+    try {
+      if (!authHeader)
+        return res.status(400).json({ error: 'Credentials not provided' });
 
-    if (!user)
-      return res.status(400).send({ error: 'User not found' });
+      const parts = authHeader.split(' ');
+      const [ scheme, hash ] = parts;
 
-    if (!await bcrypt.compare(password, user.password))
-      return res.status(400).send({ error: 'Invalid password' });
+      if (parts.length !== 2)
+        return res.status(401).send({ error: 'Login error' });
 
-    user.password = undefined;
+      if (!/^Basic$/i.test(scheme))
+        return res.status(401).send({ error: 'Login malformatted' });
 
-    res.send({
-      user,
-      token: generateToken({ id: user.id }),
-    });
+      const [ email, password ] = Buffer.from(hash, 'base64').toString().split(':');
+      
+      const user = await User.findOne({ email }).select('+password');
+
+      if (!user)
+        return res.status(400).send({ error: 'User not found' });
+
+      if (!await bcrypt.compare(password, user.password))
+        return res.status(400).send({ error: 'Invalid password' });
+
+      user.password = undefined;
+
+      res.send({
+        user,
+        token: generateToken({ id: user.id }),
+      });
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send({ error: 'Login error' });
+    }
   }
 }
