@@ -15,13 +15,13 @@ const RejectionController = require('./app/controllers/RejectionController');
 const routes = Router();
 const upload = multer(uploadConfig);
 
-routes.post('/login', SessionController.store);
+routes.get('/login', SessionController.show);
+routes.post('/users', UserController.store);
 
 routes.use(AuthMiddleware);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:user_id', UserController.show);
-routes.post('/users', UserController.store);
 routes.put('/users/:user_id', UserController.update);
 routes.delete('/users/:user_id', UserController.delete);
 
