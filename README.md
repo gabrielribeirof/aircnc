@@ -23,7 +23,6 @@
 ### :rocket: Platform
 
 - [NodeJS](https://nodejs.org)
-- [ReactJS](https://reactjs.org)
 
 ### :clipboard: License
 
