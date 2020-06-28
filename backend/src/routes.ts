@@ -22,7 +22,7 @@ routes.use(AuthMiddleware);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:user_id', UserController.show);
-routes.delete('/users/:user_id', UserController.delete);
+routes.delete('/users', UserController.delete);
 
 routes.get('/spots', SpotController.index);
 routes.get('/spots/:spot_id', SpotController.show);
