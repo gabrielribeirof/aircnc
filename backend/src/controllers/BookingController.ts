@@ -32,7 +32,8 @@ class BookingController {
   }
 
   async store(request: Request, response: Response) {
-    const { date, user, spot } = request.body;
+    const user = request.userID;
+    const { date, spot } = request.body;
 
     try {
       if (!await User.findById(user)) {
@@ -51,6 +52,7 @@ class BookingController {
 
       const booking = await Booking.create({
         date: nativeDate,
+        approved: false,
         user,
         spot,
       });
