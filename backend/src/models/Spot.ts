@@ -1,14 +1,12 @@
 import mongoose from 'mongoose';
 
-import { IUser } from './User';
-
 export interface ISpot extends mongoose.Document {
   id: mongoose.Schema.Types.ObjectId,
   name: string,
   price: string,
   thumbnail: string,
   tags: [string],
-  user: IUser
+  user: mongoose.Schema.Types.ObjectId
 }
 
 const SpotSchema = new mongoose.Schema({
