@@ -1,14 +1,11 @@
 import mongoose from 'mongoose';
 
-import { IUser } from './User';
-import { ISpot } from './Spot';
-
 export interface IBooking extends mongoose.Document {
   id: mongoose.Schema.Types.ObjectId,
   date: Date,
   approved: boolean,
-  user: IUser,
-  spot: ISpot
+  user: mongoose.Schema.Types.ObjectId,
+  spot: mongoose.Schema.Types.ObjectId
 }
 
 const BookingSchema = new mongoose.Schema({
