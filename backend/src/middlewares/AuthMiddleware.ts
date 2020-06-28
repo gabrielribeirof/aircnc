@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-
 import { verifyToken } from '../config/jsonwebtoken';
 
 export default (request: Request, response: Response, next: NextFunction) => {
