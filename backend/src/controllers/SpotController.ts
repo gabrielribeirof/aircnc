@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
+import path from 'path';
 
 import Spot from '../models/Spot';
 import User from '../models/User';
@@ -81,7 +82,7 @@ class SpotController {
 
       spot.remove();
 
-      fs.unlinkSync(spot.thumbnail);
+      fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', spot.thumbnail));
 
       return response.send(spot);
     } catch (err) {
