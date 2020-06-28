@@ -32,7 +32,7 @@ class SpotController {
   }
 
   async store(request: Request, response: Response) {
-    const { user_id } = request.headers;
+    const user_id = request.userID;
     const { name, price, tags } = request.body;
     const { filename } = request.file;
 
@@ -69,17 +69,19 @@ class SpotController {
     const { spot_id } = request.params;
 
     try {
-      const spot = await Spot.findByIdAndDelete(spot_id);
+      const spot = await Spot.findById(spot_id);
 
       if (!spot) {
-        return response.status(400).send({ error: 'Spot not Fount' });
+        return response.status(400).send({ error: 'Spot not fount' });
       }
 
-      if (request.userID !== spot.user.id) {
+      if (String(request.userID) !== String(spot.user)) {
         return response.status(400).send({ error: 'Not authorized for this action' });
       }
 
-      fs.unlinkSync(`/${spot.thumbnail}`);
+      spot.remove();
+
+      fs.unlinkSync(spot.thumbnail);
 
       return response.send(spot);
     } catch (err) {
