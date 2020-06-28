@@ -37,6 +37,7 @@ Main technologies implemented in backend:
 - [Typescript](https://typescriptlang.org)
 - [ESLint](https://eslint.org)
 - [Express](https://expressjs.com)
+- [MongoDB](https://www.mongodb.com)
 - [Mongoose](https://mongoosejs.com)
 - [JSON Web Token](https://github.com/auth0/node-jsonwebtoken)
 - [Multer](https://github.com/expressjs/multer)
