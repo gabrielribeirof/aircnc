@@ -30,7 +30,7 @@
 
 A **RESTful API** created with [Node.js](https://nodejs.org) and [Typescript](https://typescriptlang.com).
 <br>
-See [DOCUMENTATION](/blob/master/backend/README.md) of API for more details.
+See [DOCUMENTATION](blob/master/backend/DOCUMENTATION.md) of API for more details.
 
 Main technologies implemented in backend:
 - [Node.js](https://nodejs.org)
