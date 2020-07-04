@@ -24,6 +24,7 @@
       "error", {
       "extensions": [".tsx"]
     }],
+    "import/prefer-default-export": "off",
     "import/extensions": [
       "error", {
       ".ts": "never",
