@@ -3,7 +3,7 @@ import media from 'styled-media-query';
 import { Link } from 'react-router-dom';
 
 interface MenuLinkProps {
-  bold?: boolean;
+  bold?: string;
 }
 
 export const Container = styled.div`
