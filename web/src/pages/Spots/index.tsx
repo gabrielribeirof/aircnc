@@ -19,7 +19,7 @@ const Spots: React.FC = () => (
     <Main>
       <SpotList>
         <Spot>
-          <header styles={{ background-image: url('./assets/bkp.png'); }} />
+          <header style={{ backgroundImage: `url(${'./assets/bkp.png'})` }} />
           <SpotInfo>
             <strong>Test</strong>
             <span>R$50/day</span>
@@ -27,7 +27,7 @@ const Spots: React.FC = () => (
           </SpotInfo>
         </Spot>
         <Spot>
-          <header styles={{ background-image: url('./assets/bkp.png'); }} />
+          <header style={{ backgroundImage: `url(${'./assets/bkp.png'})` }} />
           <SpotInfo>
             <strong>Test</strong>
             <span>R$50/day</span>
@@ -35,7 +35,7 @@ const Spots: React.FC = () => (
           </SpotInfo>
         </Spot>
         <Spot>
-          <header styles={{ background-image: url('./assets/bkp.png'); }} />
+          <header style={{ backgroundImage: `url(${'./assets/bkp.png'})` }} />
           <SpotInfo>
             <strong>Test</strong>
             <span>R$50/day</span>
@@ -43,7 +43,7 @@ const Spots: React.FC = () => (
           </SpotInfo>
         </Spot>
         <Spot>
-          <header styles={{ background-image: url('./assets/bkp.png'); }} />
+          <header style={{ backgroundImage: `url(${'./assets/bkp.png'})` }} />
           <SpotInfo>
             <strong>Test</strong>
             <span>R$50/day</span>
