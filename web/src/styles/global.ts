@@ -1,8 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap');
-
   :root {
     --title: #222222;
     --subtitle: #dddddd;
