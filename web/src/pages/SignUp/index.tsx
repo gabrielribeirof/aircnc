@@ -1,5 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, {
+  useState, useContext, ChangeEvent, FormEvent
+} from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '@services/api';
+
+import AuthContext from '@contexts/auth';
 
 import {
   Container, ContainerMax, Col, Header, Main, Footer,
@@ -20,9 +25,12 @@ interface UsersResponse {
 }
 
 const SignUp: React.FC = () => {
+  const { setUser } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const history = useHistory();
 
   function handleChangeName(event: ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
@@ -39,15 +47,18 @@ const SignUp: React.FC = () => {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    const response = await api.post<UsersResponse>('/users', {
-      name,
-      email,
-      password,
-    });
+    try {
+      const response = await api.post<UsersResponse>('/users', {
+        name,
+        email,
+        password,
+      });
 
-    if (response.status !== 200) {
-      alert(response.data);
-    }
+      setUser(response.data.user);
+      history.push('/');
+    } catch (err) {
+      alert(err);
+    };
   }
 
   return (
