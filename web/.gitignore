@@ -9,6 +9,9 @@ node_modules# See https://help.github.com/articles/ignoring-files/ for more abou
 # testing
 /coverage
 
+# Env Vars
+.env
+
 # production
 /build
 
