@@ -4,7 +4,8 @@ import api from '@services/api';
 interface AuthContextData {
   signed: boolean;
   user: object | null;
-  signIn(email: string, password: string): Promise<void>
+  setUser: Function;
+  signIn(email: string, password: string): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -21,14 +22,17 @@ export const AuthProvider: React.FC = ({ children }) => {
         },
       });
 
+      localStorage.setItem('@Aircnc:token', response.data.token);
+      localStorage.setItem('@Aircnc:user', response.data.user._id);
+
       setUser(response.data.user);
-      console.log(response.code)
     } catch (err) {
       alert(err);
     }
   }
+
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, signIn }}>
+    <AuthContext.Provider value={{ signed: !!user, user, setUser, signIn }}>
       {children}
     </AuthContext.Provider>
   );
