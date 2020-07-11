@@ -4,15 +4,15 @@ interface FlexProps {
   flexDirection?: string;
   justify?: string;
   alignItems?: string;
+  width?: any;
 }
 
 interface ColProps extends FlexProps {
-  width?: any;
   flex?: any;
 }
 
 export const Container = styled.div<FlexProps>`
-  width: 100%;
+  width: ${props => props.width ? props.width : '100%'};
   display: flex;
   flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : '')};
   justify-content: ${(props) => (props.justify ? props.justify : '')};
