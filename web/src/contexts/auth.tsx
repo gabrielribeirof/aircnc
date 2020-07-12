@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import api from '@services/api';
 
 interface AuthContextData {
@@ -13,6 +13,19 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<object | null>(null);
 
+  function loadStorageData() {
+    const storageToken = localStorage.getItem('@Aircnc:token');
+    const storageUser = localStorage.getItem('@Aircnc:user');
+
+    if (storageToken && storageUser) {
+      setUser(JSON.parse(storageUser));
+    }
+  }
+
+  useEffect(() => {
+    loadStorageData();
+  }, []);
+
   async function signIn(email: string, password: string) {
     try {
       const response = await api.get('/login', {
@@ -23,7 +36,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       });
 
       localStorage.setItem('@Aircnc:token', response.data.token);
-      localStorage.setItem('@Aircnc:user', response.data.user._id);
+      localStorage.setItem('@Aircnc:user', JSON.stringify(response.data.user));
 
       setUser(response.data.user);
     } catch (err) {
