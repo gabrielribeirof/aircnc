@@ -26,22 +26,31 @@
 
 ---
 
-## :computer: Backend
+<p align="center">
+  <img alt="web" src=".github/web.png" style="border-radius: 6px">
+</p>
 
-A **RESTful API** created with [Node.js](https://nodejs.org) and [Typescript](https://typescriptlang.com).
-<br>
+## :electric_plug: Backend
+
+A **RESTful API** created with *Node.js* and *Typescript*.
 See [DOCUMENTATION](blob/master/backend/DOCUMENTATION.md) of API for more details.
 
-Main technologies implemented in backend:
-- [Node.js](https://nodejs.org)
-- [Typescript](https://typescriptlang.org)
-- [ESLint](https://eslint.org)
-- [Express](https://expressjs.com)
-- [MongoDB](https://www.mongodb.com)
-- [Mongoose](https://mongoosejs.com)
-- [JSON Web Token](https://github.com/auth0/node-jsonwebtoken)
-- [Multer](https://github.com/expressjs/multer)
-- [CORS](https://github.com/expressjs/cors)
+### :rocket: Main technologies
+| Name | Description |
+| - | - |
+|[Node.js](https://nodejs.org) | Javascript interpreter |
+|[Typescript](https://typescriptlang.org) | Language that adds type in javascript |
+|[ESLint](https://eslint.org) | Ecmascript linter |
+|[Express](https://expressjs.com) | Standard server structure |
+|[MongoDB](https://www.mongodb.com) | NoSQL database |
+|[Mongoose](https://mongoosejs.com) | Here used as query and schema builder |
+|[JSON Web Token](https://github.com/auth0/node-jsonwebtoken) | Token pattern |
+|[Multer](https://github.com/expressjs/multer) | File upload middleware |
+|[CORS](https://github.com/expressjs/cors) | Express cors |
+
+## :computer: Web app
+
+**React** application with *Typescript*. **Features**: Mobile Friendly, create and login an account, create and booking a spot.
 
 ## :clipboard: License
 
