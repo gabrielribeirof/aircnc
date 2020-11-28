@@ -79,7 +79,7 @@ Removes your own user. Returns the deleted user object on success.
 <br>
 
 
-## Spots
+## Spots Resource
 
 
 ### Get Spots: `GET /spots`
@@ -106,7 +106,7 @@ Deletes the spot object for the given id. Returns the deleted spot object on suc
 <br>
 
 
-## Bookings
+## Bookings Resource
 
 
 ### Get Bookings: `GET /bookings`
