@@ -1,138 +1,134 @@
 # API Documentation
 
-- [Introdution](#introdution)
-  - [`Authentication`](#authentication)
-- [Login](#login)
-  - `GET /login`
-- [Users](#users)
-  - `GET /users`
-  - `GET /users/:user_id`
-  - `POST /users`
-  - `DELETE /users/:user_id`
-- [Spots](#spots)
-  - `GET /spots`
-  - `GET /spots/:spots_id`
-  - `POST /spots`
-  - `DELETE /spots/:spots_id`
-- [Bookings](#boolings)
-  - `GET /bookings`
-  - `GET /bookings/:booking_id`
-  - `POST /bookings`
-  - `DELETE /bookings/:booking_id`
-  - `POST /bookings/:booking_id/approvals`
-  - `POST /bookings/:booking_id/rejections`
+This is a **RESTful API** and all responses are in JSON. Standard local base URL: `http://localhost:3333`
 
-## Introdution
+- Introdution
+  - [Authentication](#authentication)
+- Resources
+  - [Login](#login)
+    - `Create Login`
+  - [User](#users)
+    - `Get Users`
+    - `Get User`
+    - `Create User`
+    - `Remove User`
+  - [Spot](#spots)
+    - `List Spots`
+    - `Get Spot`
+    - `Create Spot`
+    - `Remove Spot`
+  - [Booking](#bookings)
+    - `List Bookings`
+    - `Get Booking`
+    - `Create Booking`
+    - `Remove Booking`
+    - `Create Booking Approval`
+    - `Create Booking Rejection`
 
-This is **RESTful API**, and all responses are in JSON, in the endpoint base: `http://localhost:3333`
+## Authentication
 
-### Authentication
+API authentication is done through the *JSON Web Token* generated at login.
 
-Whenever you call an application terminal,
-minus `GET / login` and` POST / users`, you must pass the *JSON Web Token* generated during login as a form of authentication. This token must be informed in the header with a parameter in the Bearer's authentication scheme. Example:
+##### Example Bearer Token Authorization Header
 ```
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U
 ```
 
-## Login
+<br>
 
-### `GET /login`
-Makes login and return your user object and JWT token
 
-#### Headers Params
-**authorization**`base64`: email and password of user
+## Login Resource
 
-## Users
 
-### `GET /users`
-Return an Array containing all users objects
+### Create Login: `GET /login`
+Makes new login. Returns your user object and JWT token on success.
 
-### `GET /users/:user_id`
-Return an Array containing a user object.
+#### Body Params
+|Field|Type|Description|
+|---|---|---|
+|email|string|user email|
+|password|string|user password|
 
-#### Query Params
-**:user_id**`string`: User ID to be captured
 
-### `POST /users`
-Creates a user and return this new user informations and your JWT token
+<br>
 
-#### Body Params (JSON)
-**name**`string`: User name to be create
 
-**email**`string`: User email to be create
+## Users Resource
 
-**password**`string`: User password to be create
 
-### `DELETE /spots/:spots_id`
-Delete a user and return its spot object
+### Get Users: `GET /users`
+Returns an array containing all user objects.
 
-#### Query Params
-**:user_id**`string`: User ID to be deleted
+### Get User: `GET /users/:user_id`
+Returns the user object for the given id.
+
+### Create User: `POST /users`
+Creates a new user object. Returns the new user object and your JWT token.
+
+#### Body Params
+|Field|Type|Description|
+|---|---|---|
+|name|string|name of the user|
+|email|string|email of the user|
+|password|string|password of the user|
+
+### Remove User: `DELETE /users`
+Removes your own user. Returns the deleted user object on success.
+
+
+<br>
 
 
 ## Spots
 
-### `GET /spots`
-Return an Array containing all spots objects
 
-### `GET /spots/:spots_id`
-Return an Erray containing a spot object.
+### Get Spots: `GET /spots`
+Returns an array containing all spot objects.
 
-#### Query Params
-**:spots_id**`string`: Spot ID to be captured
+### Get Spot: `GET /spots/:spots_id`
+Returns the spot object for the given id.
 
-### `POST /spots`
-Creates a spot and return this new spot information
+### Create Spot: `POST /spots`
+Creates a new spot object. Returns the new spot on success.
 
-#### Body Params (JSON)
-**name**`string`: Spot name to be create
+#### Body Params
+|Field|Type|Description|
+|---|---|---|
+|name|string|name of the spot|
+|file|file contents|image for the guild thumbnail|
+|price|string|price of the spot|
+|tags|string|tags separeted by commas|
 
-**file**`file`: Spot photo thumbnail to be create
+### Remove Spot: `DELETE /spots/:spots_id`
+Deletes the spot object for the given id. Returns the deleted spot object on success.
 
-**price**`string`: Descriptive spot price to be created
 
-**tags**`string`: Spot tags to be create separated by commas
-
-### `DELETE /spots/:spots_id`
-Delete a user and return its user object
-
-#### Query Params
-**:spots_id**`string`: Spot ID to be deleted
+<br>
 
 
 ## Bookings
 
-### `GET /bookings`
-Return an Array containing all bookings objects
 
-### `GET /bookings/:booking_id`
-Return an Array containing a booking object
+### Get Bookings: `GET /bookings`
+Returns an array containing all booking objects.
 
-#### Query Params
-**:booking_id**`string`: Spot ID to be captured
+### Get Booking: `GET /bookings/:booking_id`
+Returns the booking object for the given id.
 
-### `POST /bookings`
+### Create Booking: `POST /bookings`
 Creates a booking and return this new booking information
 
-#### Body Params (JSON)
-**date**`object`: Date object of booking
+#### Body Params
+|Field|Type|Description|
+|---|---|---|
+|date|object|date object of booking|
+|spot|string|spot id of booking|
 
-**spot**`string`: Spot ID of booking
+### Remove Booking: `DELETE /bookings/:booking_id`
+Deletes the booking object for the given id. Returns the deleted booking object on success.
 
-### `DELETE /bookings/:booking_id`
-Delete a booking and return its booking object
+### Create Booking Approval: `POST /bookings/:booking_id/approvals`
+Approves a booking at your spot by the given id. Returns the deleted booking object on success.
 
-#### Query Params
-**:booking_id**`string`: Spot ID to be deleted
-
-### `POST /bookings/:booking_id/approvals`
-Approve a booking at your spot
-
-#### Query Params
-**:booking_id**`string`: Spot ID to be approve
-
-### `POST /bookings/:booking_id/rejections`
-Reject a booking at your spot
-
-#### Query Params
-**:booking_id**`string`: Spot ID to be delete
+### Create Booking Rejection: `POST /bookings/:booking_id/rejections`
+Rejects a booking at your spot by the given id. Returns the deleted booking object on success.
