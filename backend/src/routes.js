@@ -1,16 +1,16 @@
-import { Router } from 'express';
-import multer from 'multer';
+const { Router } = require('express');
+const multer = require('multer');
 
-import uploadConfig from './config/multer';
+const uploadConfig = require('./config/multer');
 
-import AuthMiddleware from './middlewares/AuthMiddleware';
+const AuthMiddleware = require('./middlewares/AuthMiddleware');
 
-import SessionController from './controllers/SessionController';
-import UserController from './controllers/UserController';
-import SpotController from './controllers/SpotController';
-import BookingController from './controllers/BookingController';
-import ApprovalController from './controllers/ApprovalController';
-import RejectionController from './controllers/RejectionController';
+const SessionController = require('./controllers/SessionController');
+const UserController = require('./controllers/UserController');
+const SpotController = require('./controllers/SpotController');
+const BookingController = require('./controllers/BookingController');
+const ApprovalController = require('./controllers/ApprovalController');
+const RejectionController = require('./controllers/RejectionController');
 
 const routes = Router();
 const upload = multer(uploadConfig);
@@ -22,7 +22,6 @@ routes.use(AuthMiddleware);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:user_id', UserController.show);
-routes.delete('/users', UserController.delete);
 
 routes.get('/spots', SpotController.index);
 routes.get('/spots/:spot_id', SpotController.show);
@@ -37,4 +36,4 @@ routes.delete('/bookings/:booking_id', BookingController.delete);
 routes.post('/bookings/:booking_id/approvals', ApprovalController.store);
 routes.post('/bookings/:booking_id/rejections', RejectionController.store);
 
-export default routes;
+module.exports = routes;

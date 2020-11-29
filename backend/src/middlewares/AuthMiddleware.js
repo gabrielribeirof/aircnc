@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../config/jsonwebtoken';
+const { verifyToken } = require('../config/jwt');
 
-export default (request: Request, response: Response, next: NextFunction) => {
+module.exports = (request, response, next) => {
   const { authorization } = request.headers;
 
   try {
@@ -20,7 +19,7 @@ export default (request: Request, response: Response, next: NextFunction) => {
       return response.status(401).send({ error: 'Token malformatted' });
     }
 
-    const decoded: any = verifyToken(token);
+    const decoded = verifyToken(token);
 
     request.userID = decoded.id;
 

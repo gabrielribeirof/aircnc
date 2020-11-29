@@ -1,14 +1,10 @@
-import mongoose from 'mongoose';
-import bcryptjs from 'bcryptjs';
+const mongoose = require('mongoose');
+const bcryptjs = require('bcryptjs');
 
-export interface IUser extends mongoose.Document {
-  id: mongoose.Schema.Types.ObjectId,
-  name: string,
-  email: string,
-  password: string,
-}
+const Spot = require('./Spot');
+const Booking = require('./Booking');
 
-const UserSchema = new mongoose.Schema<IUser>({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -34,16 +30,20 @@ const UserSchema = new mongoose.Schema<IUser>({
     ref: 'Booking',
     required: true,
   }],
-}, {
-  timestamps: true,
 });
 
-// eslint-disable-next-line func-names
-UserSchema.pre<IUser>('save', async function (next) {
+UserSchema.pre('save', async function (next) {
   const hash = await bcryptjs.hash(this.password, 10);
   this.password = hash;
 
   next();
 });
 
-export default mongoose.model<IUser>('User', UserSchema);
+UserSchema.pre('remove', function (next) {
+  Spot.remove({ user: this._id });
+  Booking.remove({ user: this._id });
+
+  next();
+});
+
+module.exports = mongoose.model('User', UserSchema);

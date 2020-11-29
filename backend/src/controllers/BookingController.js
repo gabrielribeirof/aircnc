@@ -1,11 +1,9 @@
-import { Request, Response } from 'express';
-
-import Booking from '../models/Booking';
-import User from '../models/User';
-import Spot from '../models/Spot';
+const Booking = require('../models/Booking');
+const User = require('../models/User');
+const Spot = require('../models/Spot');
 
 class BookingController {
-  async index(request: Request, response: Response) {
+  async index(request, response) {
     try {
       const bookings = await Booking.find();
 
@@ -15,7 +13,7 @@ class BookingController {
     }
   }
 
-  async show(request: Request, response: Response) {
+  async show(request, response) {
     const { booking_id } = request.params;
 
     try {
@@ -31,7 +29,7 @@ class BookingController {
     }
   }
 
-  async store(request: Request, response: Response) {
+  async store(request, response) {
     const user = request.userID;
     const { date, spot } = request.body;
 
@@ -63,7 +61,7 @@ class BookingController {
     }
   }
 
-  async delete(request: Request, response: Response) {
+  async delete(request, response) {
     const { booking_id } = request.params;
 
     try {
@@ -80,4 +78,4 @@ class BookingController {
   }
 }
 
-export default new BookingController();
+module.exports = new BookingController();

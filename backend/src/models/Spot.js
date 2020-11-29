@@ -1,13 +1,6 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-export interface ISpot extends mongoose.Document {
-  id: mongoose.Schema.Types.ObjectId,
-  name: string,
-  price: string,
-  thumbnail: string,
-  tags: [string],
-  user: mongoose.Schema.Types.ObjectId
-}
+const Booking = require('./Booking');
 
 const SpotSchema = new mongoose.Schema({
   name: {
@@ -28,8 +21,12 @@ const SpotSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-}, {
-  timestamps: true,
 });
 
-export default mongoose.model<ISpot>('Spot', SpotSchema);
+SpotSchema.pre('remove', function (next) {
+  Booking.remove({ user: this._id });
+
+  next();
+});
+
+module.exports = mongoose.model('Spot', SpotSchema);

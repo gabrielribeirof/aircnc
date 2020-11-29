@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
-import { generateToken } from '../config/jsonwebtoken';
+const { Request, Response } = require('express');
+const { generateToken } = require('../config/jwt');
 
-import User from '../models/User';
+const User = require('../models/User');
 
 class UserController {
-  async index(request: Request, response: Response) {
+  async index(request, response) {
     try {
-      const users = await User.find().populate('spots');
+      const users = await User.find().populate('spots', 'bookings');
 
       return response.send(users);
     } catch (err) {
@@ -14,7 +14,7 @@ class UserController {
     }
   }
 
-  async show(request: Request, response: Response) {
+  async show(request, response) {
     const { user_id } = request.params;
 
     try {
@@ -30,7 +30,7 @@ class UserController {
     }
   }
 
-  async store(request: Request, response: Response) {
+  async store(request, response) {
     const { name, email, password } = request.body;
 
     try {
@@ -54,26 +54,6 @@ class UserController {
       return response.status(400).send({ error: 'Error adding user' });
     }
   }
-
-  async delete(request: Request, response: Response) {
-    const { user_id } = request.params;
-
-    try {
-      if (request.userID !== user_id) {
-        return response.status(400).send({ error: 'Not authorized for this action' });
-      }
-
-      const user = await User.findByIdAndDelete(user_id);
-
-      if (!user) {
-        return response.status(400).send({ error: 'User not found' });
-      }
-
-      return response.send(user);
-    } catch (err) {
-      return response.status(400).send({ error: 'Error deleting user' });
-    }
-  }
 }
 
-export default new UserController();
+module.exports = new UserController();

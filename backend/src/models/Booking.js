@@ -1,12 +1,4 @@
-import mongoose from 'mongoose';
-
-export interface IBooking extends mongoose.Document {
-  id: mongoose.Schema.Types.ObjectId,
-  date: Date,
-  approved: boolean,
-  user: mongoose.Schema.Types.ObjectId,
-  spot: mongoose.Schema.Types.ObjectId
-}
+const mongoose = require('mongoose');
 
 const BookingSchema = new mongoose.Schema({
   date: {
@@ -30,4 +22,4 @@ const BookingSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model<IBooking>('Booking', BookingSchema);
+module.exports = mongoose.model('Booking', BookingSchema);

@@ -1,9 +1,7 @@
-import { Request, Response } from 'express';
-
-import Booking from '../models/Booking';
+const Booking = require('../models/Booking');
 
 class ApprovalController {
-  async store(request: Request, response: Response) {
+  async store(request, response) {
     const { booking_id } = request.params;
 
     try {
@@ -23,4 +21,4 @@ class ApprovalController {
   }
 }
 
-export default new ApprovalController();
+module.exports = new ApprovalController();

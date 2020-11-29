@@ -1,12 +1,11 @@
-import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
-import Spot from '../models/Spot';
-import User from '../models/User';
+const Spot = require('../models/Spot');
+const User = require('../models/User');
 
 class SpotController {
-  async index(request: Request, response: Response) {
+  async index(request, response) {
     try {
       const spots = await Spot.find().populate('user');
 
@@ -16,7 +15,7 @@ class SpotController {
     }
   }
 
-  async show(request: Request, response: Response) {
+  async show(request, response) {
     const { spot_id } = request.params;
 
     try {
@@ -32,7 +31,7 @@ class SpotController {
     }
   }
 
-  async store(request: Request, response: Response) {
+  async store(request, response) {
     const user_id = request.userID;
     const { name, price, tags } = request.body;
     const { filename } = request.file;
@@ -50,7 +49,7 @@ class SpotController {
         name,
         price,
         thumbnail: filename,
-        tags: tags.split(',').map((tag: string) => tag.trim()),
+        tags: tags.split(',').map((tag) => tag.trim()),
       });
 
       await user.updateOne({
@@ -66,7 +65,7 @@ class SpotController {
     }
   }
 
-  async delete(request: Request, response: Response) {
+  async delete(request, response) {
     const { spot_id } = request.params;
 
     try {
@@ -91,4 +90,4 @@ class SpotController {
   }
 }
 
-export default new SpotController();
+module.exports = new SpotController();

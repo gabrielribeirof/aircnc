@@ -1,14 +1,14 @@
-import express, { Express } from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import morgan from 'morgan';
-import { resolve } from 'path';
+require('dotenv/config');
 
-import routes from './routes';
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const { resolve } = require('path');
+
+const routes = require('./routes');
 
 class App {
-  server: Express;
-
   constructor() {
     this.server = express();
 
@@ -21,8 +21,10 @@ class App {
     this.server.use(express.json());
     this.server.use(cors());
     this.server.use(morgan('dev'));
-
-    this.server.use('/files', express.static(resolve(__dirname, '..', 'uploads')));
+    this.server.use(
+      '/files',
+      express.static(resolve(__dirname, '..', 'uploads')),
+    );
   }
 
   routes() {
@@ -41,4 +43,4 @@ class App {
   }
 }
 
-export default new App().server;
+module.exports = new App().server;
