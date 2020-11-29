@@ -11,7 +11,6 @@ This is a **RESTful API** and all responses are in JSON. Standard local base URL
     - `Get Users`
     - `Get User`
     - `Create User`
-    - `Remove User`
   - [Spot](#spots)
     - `List Spots`
     - `Get Spot`
@@ -71,9 +70,6 @@ Creates a new user object. Returns the new user object and your JWT token.
 |name|string|name of the user|
 |email|string|email of the user|
 |password|string|password of the user|
-
-### Remove User: `DELETE /users`
-Removes your own user. Returns the deleted user object on success.
 
 
 <br>
