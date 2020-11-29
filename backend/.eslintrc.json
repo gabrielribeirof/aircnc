@@ -16,8 +16,10 @@
   ],
   "rules": {
     "camelcase": "off",
+    "func-names": "off",
     "no-console": "off",
     "no-unused-vars": "off",
+    "arrow-body-style": "off",
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
     "import/extensions": "off"
