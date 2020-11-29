@@ -1,4 +1,3 @@
-const { Request, Response } = require('express');
 const { generateToken } = require('../config/jwt');
 
 const User = require('../models/User');
