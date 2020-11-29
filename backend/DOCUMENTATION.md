@@ -12,12 +12,12 @@ This is a **RESTful API** and all responses are in JSON. Standard local base URL
     - `Get User`
     - `Create User`
   - [Spot](#spots)
-    - `List Spots`
+    - `Get Spots`
     - `Get Spot`
     - `Create Spot`
     - `Remove Spot`
   - [Booking](#bookings)
-    - `List Bookings`
+    - `Get Bookings`
     - `Get Booking`
     - `Create Booking`
     - `Remove Booking`
