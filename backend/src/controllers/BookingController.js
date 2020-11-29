@@ -44,7 +44,7 @@ class BookingController {
 
       const nativeDate = new Date(date);
 
-      if (Object.prototype.toString.call(nativeDate) === '[object Date]') {
+      if (!Object.prototype.toString.call(nativeDate) === '[object Date]') {
         return response.status(400).send({ error: 'Poorly formatted date' });
       }
 
