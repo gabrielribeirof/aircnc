@@ -5,7 +5,7 @@ const { generateToken } = require('../config/jwt');
 const User = require('../models/User');
 
 class SessionController {
-  async show(request, response) {
+  async create(request, response) {
     const { email, password } = request.body;
 
     try {
@@ -25,7 +25,7 @@ class SessionController {
 
       user.password = undefined;
 
-      return response.send({
+      return response.json({
         user,
         token: generateToken({ id: user.id }),
       });
