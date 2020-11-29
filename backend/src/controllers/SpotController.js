@@ -52,12 +52,6 @@ class SpotController {
         tags: tags.split(',').map((tag) => tag.trim()),
       });
 
-      await user.updateOne({
-        $push: {
-          spots: spot._id,
-        },
-      });
-
       return response.send(spot);
     } catch (err) {
       fs.unlinkSync(request.file.path);
