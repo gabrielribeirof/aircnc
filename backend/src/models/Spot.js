@@ -9,7 +9,6 @@ const SpotSchema = new mongoose.Schema({
   },
   price: {
     type: String,
-    required: true,
   },
   thumbnail: {
     type: String,
