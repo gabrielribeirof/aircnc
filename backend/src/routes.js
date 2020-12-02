@@ -15,7 +15,7 @@ const RejectionController = require('./controllers/RejectionController');
 const routes = Router();
 const upload = multer(uploadConfig);
 
-routes.get('/login', SessionController.create);
+routes.post('/login', SessionController.create);
 routes.post('/users', UserController.store);
 
 routes.use(AuthMiddleware);
