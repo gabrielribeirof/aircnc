@@ -20,6 +20,10 @@ const SpotSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+}, {
+  toJSON: {
+    virtuals: true,
+  },
 });
 
 SpotSchema.pre('remove', function (next) {
@@ -28,6 +32,10 @@ SpotSchema.pre('remove', function (next) {
   });
 
   next();
+});
+
+SpotSchema.virtual('thumbnail_url').get(function () {
+  return `http://192.168.0.106:3333/files/${this.thumbnail}`;
 });
 
 module.exports = mongoose.model('Spot', SpotSchema);
