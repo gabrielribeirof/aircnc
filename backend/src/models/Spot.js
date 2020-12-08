@@ -34,6 +34,13 @@ SpotSchema.pre('remove', function (next) {
   next();
 });
 
+SpotSchema.virtual('bookings', {
+  ref: 'Booking',
+  localField: '_id',
+  foreignField: 'spot',
+  justOne: false,
+});
+
 SpotSchema.virtual('thumbnail_url').get(function () {
   return `http://192.168.0.106:3333/files/${this.thumbnail}`;
 });
