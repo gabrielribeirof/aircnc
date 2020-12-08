@@ -26,9 +26,9 @@ const SpotSchema = new mongoose.Schema({
   },
 });
 
-SpotSchema.pre('remove', function (next) {
-  Booking.remove({
-    user: this.user,
+SpotSchema.pre('deleteOne', async function (next) {
+  await Booking.deleteMany({
+    spot: this._id,
   });
 
   next();
