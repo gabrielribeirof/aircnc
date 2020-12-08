@@ -7,7 +7,7 @@ const User = require('../models/User');
 class SpotController {
   async index(request, response) {
     try {
-      const spots = await Spot.find().populate('user');
+      const spots = await Spot.find().populate('bookings');
 
       return response.send(spots);
     } catch (err) {
@@ -66,14 +66,14 @@ class SpotController {
       const spot = await Spot.findById(spot_id);
 
       if (!spot) {
-        return response.status(400).send({ error: 'Spot not fount' });
+        return response.status(400).send({ error: 'Spot not found' });
       }
 
       if (String(request.userID) !== String(spot.user)) {
         return response.status(400).send({ error: 'Not authorized for this action' });
       }
 
-      spot.remove();
+      spot.deleteOne();
 
       fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', spot.thumbnail));
 
