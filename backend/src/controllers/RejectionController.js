@@ -5,13 +5,13 @@ class RejectionController {
     const { booking_id } = request.params;
 
     try {
-      const booking = await Booking.findById(booking_id).populate('spot');
+      const booking = await Booking.findById(booking_id);
 
       if (!booking) {
         return response.status(400).send({ error: 'Booking not found' });
       }
 
-      booking.approved = false;
+      booking.status = 'rejected';
       await booking.save();
 
       return response.send(booking);

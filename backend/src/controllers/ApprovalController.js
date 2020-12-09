@@ -5,13 +5,13 @@ class ApprovalController {
     const { booking_id } = request.params;
 
     try {
-      const booking = await Booking.findById(booking_id).populate('spot');
+      const booking = await Booking.findById(booking_id);
 
       if (!booking) {
         return response.status(400).send({ error: 'Booking not found' });
       }
 
-      booking.approved = true;
+      booking.status = 'approved';
       await booking.save();
 
       return response.send(booking);

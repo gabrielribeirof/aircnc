@@ -5,10 +5,10 @@ const BookingSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  approved: {
-    type: Boolean,
-    required: true,
-    default: false,
+  status: {
+    type: String,
+    enum: ['approved', 'rejected', 'pending'],
+    default: 'pending',
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

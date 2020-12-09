@@ -7,7 +7,7 @@ const User = require('../models/User');
 class SpotController {
   async index(request, response) {
     try {
-      const spots = await Spot.find().populate('bookings');
+      const spots = await Spot.find().populate('user');
 
       return response.send(spots);
     } catch (err) {
