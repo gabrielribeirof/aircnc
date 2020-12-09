@@ -3,16 +3,6 @@ const { generateToken } = require('../config/jwt');
 const User = require('../models/User');
 
 class UserController {
-  async index(request, response) {
-    try {
-      const users = await User.find().populate('spots', 'bookings');
-
-      return response.send(users);
-    } catch (err) {
-      return response.status(400).send({ error: 'Error loading users' });
-    }
-  }
-
   async show(request, response) {
     const { user_id } = request.params;
 
