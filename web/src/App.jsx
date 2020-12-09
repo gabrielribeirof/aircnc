@@ -1,7 +1,6 @@
 import React from 'react';
-
-import { AuthProvider } from '@contexts/auth';
-import GlobalStyle from '@styles/global';
+import { AuthProvider } from './contexts/auth';
+import GlobalStyle from './styles/global';
 import Routes from './routes';
 
 const App = () => (
