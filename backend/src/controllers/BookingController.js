@@ -4,37 +4,32 @@ const Spot = require('../models/Spot');
 
 class BookingController {
   async index(request, response) {
-    try {
-      const bookings = await Booking.find();
+    const user_id = request.userID;
+    const { status } = request.query;
 
-      return response.send(bookings);
+    try {
+      const bookings = await Booking.find({
+        status,
+      }).populate('user').populate('spot');
+
+      const userBookings = bookings.filter((booking) => (
+        String(booking.spot.user) === user_id
+      ));
+
+      console.log(userBookings);
+
+      return response.send(userBookings);
     } catch (err) {
       return response.status(400).send({ error: 'Error loading bookings' });
     }
   }
 
-  async show(request, response) {
-    const { booking_id } = request.params;
-
-    try {
-      const booking = await Booking.findById(booking_id);
-
-      if (!booking) {
-        return response.status(400).send({ error: 'Booking not found' });
-      }
-
-      return response.send(booking);
-    } catch (err) {
-      return response.status(400).send({ error: 'Error finding booking' });
-    }
-  }
-
   async store(request, response) {
-    const user = request.userID;
+    const user_id = request.userID;
     const { date, spot } = request.body;
 
     try {
-      if (!await User.findById(user)) {
+      if (!await User.findById(user_id)) {
         return response.status(400).send({ error: 'User not found' });
       }
 
@@ -51,7 +46,7 @@ class BookingController {
       const booking = await Booking.create({
         date: nativeDate,
         approved: false,
-        user,
+        user: user_id,
         spot,
       });
 
