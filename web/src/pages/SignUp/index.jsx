@@ -1,8 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import api from '../../services/api';
-
-import AuthContext from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -12,26 +10,21 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { setUser, signOut } = useContext(AuthContext);
+  const { signUp } = useAuth();
   const history = useHistory();
 
-  async function handleSubmit(event) {
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
 
     try {
-      const response = await api.post('users', {
-        name,
-        email,
-        password,
-      });
+      await signUp({ name, email, password });
 
-      setUser(response.data.user);
       history.push('/spots');
     } catch (err) {
-      signOut();
-      history.push('/');
+      alert(err);
     }
-  }
+  }, [name, email, password, history, signUp]);
+
   return (
     <Card>
       <form onSubmit={handleSubmit}>

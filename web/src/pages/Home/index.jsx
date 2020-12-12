@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import AuthContext from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -9,20 +9,20 @@ const Home = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signed, signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
   const history = useHistory();
 
-  useEffect(() => {
-    if (signed) {
-      history.push('/spots');
-    }
-  }, [signed, history]);
-
-  function handleSubmit(event) {
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
 
-    signIn(email, password);
-  }
+    try {
+      await signIn({ email, password });
+
+      history.push('/spots');
+    } catch (err) {
+      alert(err);
+    }
+  }, [email, history, password, signIn]);
 
   return (
     <Card>

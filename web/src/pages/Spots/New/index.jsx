@@ -1,6 +1,5 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import AuthContext from '../../../contexts/auth';
 
 import api from '../../../services/api';
 
@@ -17,12 +16,11 @@ const New = () => {
   const [tags, setTags] = useState('');
   const [price, setPrice] = useState('');
 
-  const { signOut } = useContext(AuthContext);
   const history = useHistory();
 
   const preview = useMemo(() => (file ? URL.createObjectURL(file) : null), [file]);
 
-  async function handleSubmit(event) {
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
 
     const data = new FormData();
@@ -37,10 +35,9 @@ const New = () => {
 
       history.push('/spots');
     } catch (err) {
-      signOut();
-      history.push('/');
+      alert(err);
     }
-  }
+  }, [file, name, tags, price, history]);
 
   return (
     <Card>

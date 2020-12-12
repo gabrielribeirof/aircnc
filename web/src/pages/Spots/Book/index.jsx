@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import api from '../../../services/api';
@@ -9,10 +9,10 @@ import Button from '../../../components/Button';
 const Book = () => {
   const [date, setDate] = useState('');
 
-  const history = useHistory();
   const { spot_id } = useParams();
+  const history = useHistory();
 
-  async function handleSubmit(event) {
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
 
     try {
@@ -27,7 +27,7 @@ const Book = () => {
     } catch (err) {
       alert('Erro ao solicitar reserva');
     }
-  }
+  }, [date, spot_id, history]);
 
   return (
     <Card>

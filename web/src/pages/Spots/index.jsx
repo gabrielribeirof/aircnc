@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import api from '../../services/api';
+import { useAuth } from '../../contexts/auth';
 
-import AuthContext from '../../contexts/auth';
+import api from '../../services/api';
 
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -13,7 +13,7 @@ const Spots = () => {
   const [spots, setSpots] = useState([]);
   const [requests, setRequests] = useState([]);
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const history = useHistory();
 
   useEffect(async () => {
@@ -28,17 +28,17 @@ const Spots = () => {
     setSpots(spotsResponse.data);
   }, []);
 
-  async function handleAccept(id) {
+  const handleAccept = useCallback(async (id) => {
     await api.post(`bookings/${id}/approve`);
 
     setRequests(requests.filter((request) => request._id !== id));
-  }
+  }, []);
 
-  async function handleReject(id) {
+  const handleReject = useCallback(async (id) => {
     await api.post(`bookings/${id}/reject`);
 
     setRequests(requests.filter((request) => request._id !== id));
-  }
+  }, []);
 
   return (
     <Card>
