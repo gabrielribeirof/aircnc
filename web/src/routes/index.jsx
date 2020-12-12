@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route as RouteDOM, Redirect } from 'react-router-dom';
 
-import AuthContext from '../contexts/auth';
+import { useAuth } from '../contexts/auth';
 
 import Layout from '../components/Layout';
 import Home from '../pages/Home';
@@ -10,14 +10,18 @@ import Spots from '../pages/Spots';
 import NewSpot from '../pages/Spots/New';
 import BookSpot from '../pages/Spots/Book';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { signed } = useContext(AuthContext);
+const Route = ({ component: Component, isPrivate = false, ...rest }) => {
+  const { user } = useAuth();
 
-  if (!signed) {
+  if (!user && isPrivate) {
     return <Redirect to="/" />;
   }
 
-  return <Route {...rest} render={(props) => <Component {...props} />} />;
+  if (user && !isPrivate) {
+    return <Redirect to="/spots" />;
+  }
+
+  return <RouteDOM {...rest} render={(props) => <Component {...props} />} />;
 };
 
 const Routes = () => (
@@ -25,9 +29,9 @@ const Routes = () => (
     <Layout>
       <Route component={Home} path="/" exact />
       <Route component={SignUp} path="/signup" />
-      <PrivateRoute component={Spots} path="/spots" exact />
-      <PrivateRoute component={NewSpot} path="/spots/new" />
-      <PrivateRoute component={BookSpot} path="/spots/:spot_id/book" />
+      <Route component={Spots} path="/spots" exact isPrivate />
+      <Route component={NewSpot} path="/spots/new" isPrivate />
+      <Route component={BookSpot} path="/spots/:spot_id/book" isPrivate />
     </Layout>
   </BrowserRouter>
 );
