@@ -1,22 +1,27 @@
-import React, { createContext, useState } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useCallback,
+} from 'react';
 import jwt from 'jsonwebtoken';
 import api from '../services/api';
 
-const AuthContext = createContext({});
+const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storageToken = localStorage.getItem('@Aircnc:token');
-    const storageUser = localStorage.getItem('@Aircnc:user');
+const AuthProvider = ({ children }) => {
+  const [data, setData] = useState(() => {
+    const user = localStorage.getItem('@Aircnc:user');
+    const token = localStorage.getItem('@Aircnc:token');
 
-    if (storageToken && storageUser) {
+    if (user && token) {
       let isTokenExpired;
-      const decodedToken = jwt.decode(storageToken);
+      const decodedToken = jwt.decode(token);
 
       const tokenExpiresTime = decodedToken.exp;
       const currentTime = Math.floor(Date.now() / 1000);
 
-      if (tokenExpiresTime < currentTime) {
+      if (currentTime > tokenExpiresTime) {
         isTokenExpired = true;
       }
 
@@ -24,47 +29,69 @@ export const AuthProvider = ({ children }) => {
         return null;
       }
 
-      api.defaults.headers.authorization = `Bearer ${storageToken}`;
+      api.defaults.headers.authorization = `Bearer ${token}`;
 
-      return JSON.parse(storageUser);
+      return { user: JSON.parse(user), token };
     }
 
     return null;
   });
 
-  async function signIn(email, password) {
-    try {
-      const response = await api.post('/login', {
-        email,
-        password,
-      });
+  const signIn = useCallback(async ({ email, password }) => {
+    const response = await api.post('login', {
+      email,
+      password,
+    });
 
-      localStorage.setItem('@Aircnc:token', response.data.token);
-      localStorage.setItem('@Aircnc:user', JSON.stringify(response.data.user));
+    const { user, token } = response.data;
 
-      api.defaults.headers.authorization = `Bearer ${response.data.token}`;
+    localStorage.setItem('@Aircnc:user', JSON.stringify(user));
+    localStorage.setItem('@Aircnc:token', token);
 
-      setUser(response.data.user);
-    } catch (err) {
-      alert(err);
-    }
-  }
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
-  function signOut() {
+    setData({ user, token });
+  }, []);
+
+  const signUp = useCallback(async ({ name, email, password }) => {
+    const response = await api.post('users', {
+      name,
+      email,
+      password,
+    });
+
+    const { user, token } = response.data;
+
+    localStorage.setItem('@Aircnc:user', JSON.stringify(user));
+    localStorage.setItem('@Aircnc:token', token);
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
+    setData({ user, token });
+  }, []);
+
+  const signOut = useCallback(() => {
     localStorage.removeItem('@Aircnc:token');
     localStorage.removeItem('@Aircnc:user');
 
-    setUser({});
-  }
+    setData({});
+  }, []);
 
   return (
-    <AuthContext.Provider value={{
-      signed: !!user, user, setUser, signIn, signOut,
-    }}
+    <AuthContext.Provider
+      value={{
+        user: data?.user, signIn, signOut, signUp,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
 
-export default AuthContext;
+function useAuth() {
+  const context = useContext(AuthContext);
+
+  return context;
+}
+
+export { AuthProvider, useAuth };
