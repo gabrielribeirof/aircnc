@@ -20,7 +20,7 @@ module.exports = {
   },
   fileFilter(request, file, callback) {
     const allowedMimes = [
-      'images/jpeg',
+      'image/jpeg',
       'image/png',
       'image/gif',
     ];
