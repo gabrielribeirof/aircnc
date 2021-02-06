@@ -1,29 +1,27 @@
 import styled, { css } from 'styled-components';
 
 export const Container = styled.button`
-  width: 100%;
-  height: 45px;
+  min-width: 160px;
+  padding: 12px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 8px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: var(--primary);
 
-  background-color: var(--salmon);
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: bold;
+  color: #FFF;
+  font-weight: 700;
+  font-size: 18px;
+
+  transition: 0.1s;
   cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover, &:focus {
-    background-color: var(--salmon-dark);
-  }
 
   & + button {
     margin-top: 10px;
+  }
+  
+  &:hover {
+    transform: scale(1.02);
+    background: var(--primary-dark);
   }
 
   ${(props) => (

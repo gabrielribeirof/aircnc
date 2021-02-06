@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Card = ({ children }) => (
-  <Container>
+const Form = ({ children, ...rest }) => (
+  <Container {...rest}>
     {children}
   </Container>
 );
 
-export default Card;
+export default Form;

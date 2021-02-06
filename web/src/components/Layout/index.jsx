@@ -1,17 +1,16 @@
 import React from 'react';
 
-import logoImg from '../../assets/logo.svg';
+import Header from '../Header';
 
-import { Container, Content } from './styles';
+import { Wrapper } from './styles';
 
 const Layout = ({ children }) => (
-  <Container>
-    <img src={logoImg} alt="Logo" />
-
-    <Content>
+  <>
+    <Header />
+    <Wrapper>
       {children}
-    </Content>
-  </Container>
+    </Wrapper>
+  </>
 );
 
 export default Layout;
