@@ -18,9 +18,13 @@ export default createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: 'Montserrat';
-    font-weight: 500;
+    font-family: 'Nunito Sans';
+    font-weight: 400;
     text-rendering: optimizeLegibility;
     color: var(--title);
+  }
+
+  input, button {
+    font-family: 'Nunito Sans';
   }
 `;
