@@ -10,37 +10,28 @@ import Button from '../../components/Button';
 import { Container } from './styles';
 
 const SignIn = () => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signUp } = useAuth();
+  const { signIn } = useAuth();
   const history = useHistory();
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
 
     try {
-      await signUp({ name, email, password });
+      await signIn({ email, password });
 
       history.push('/spots');
     } catch (err) {
       alert(err);
     }
-  }, [name, email, password, history, signUp]);
+  }, [email, password, history, signIn]);
 
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <h1>Sign Up</h1>
-
-        <Input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
-
+        <h1>Sign In</h1>
         <Input
           type="email"
           placeholder="E-mail"
@@ -55,12 +46,12 @@ const SignIn = () => {
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <Button type="submit">Enter</Button>
+        <Button>Enter</Button>
 
         <span className="hot-link">
-          You already have an account?
+          Not have an account yet?
           {' '}
-          <Link to="/signin">Login now</Link>
+          <Link to="/signup">Sign Up now</Link>
         </span>
       </Form>
     </Container>
