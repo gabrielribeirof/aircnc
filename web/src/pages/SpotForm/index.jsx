@@ -1,16 +1,16 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
+import api from '../../services/api';
 
-import api from '../../../services/api';
+import cameraIcon from '../../assets/camera.svg';
 
-import cameraIcon from '../../../assets/camera.svg';
+import Form from '../../components/Form';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 
-import Card from '../../../components/Card';
-import Button from '../../../components/Button';
+import { Container, ThumbnailPreview } from './styles';
 
-import { ThumbnailPreview } from './styles';
-
-const New = () => {
+const SpotForm = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState('');
   const [tags, setTags] = useState('');
@@ -40,52 +40,39 @@ const New = () => {
   }, [file, name, tags, price, history]);
 
   return (
-    <Card>
-      <form onSubmit={handleSubmit}>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <h1 className="form-title">Spot</h1>
+
         <ThumbnailPreview
-          id="file"
           style={{ backgroundImage: `url(${preview})` }}
         >
           <input type="file" onChange={(event) => setFile(event.target.files[0])} />
-          <img src={cameraIcon} alt="Selecione uma imagem" />
+          <img src={cameraIcon} alt="Select" />
         </ThumbnailPreview>
 
-        <label htmlFor="name">NOME *</label>
-        <input
-          id="name"
-          placeholder="Um nome para o local"
+        <Input
+          placeholder="Name"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
 
-        <label htmlFor="tags">
-          TAGS *
-          {' '}
-          <span>(separadas por vírgula)</span>
-        </label>
-        <input
-          id="tags"
-          placeholder="O que define seu local?"
+        <Input
+          placeholder="Tags (separeted by comma)"
           value={tags}
           onChange={(event) => setTags(event.target.value)}
         />
 
-        <label htmlFor="price">
-          VALOR POR DIA *
-          {' '}
-          <span>(em branco para GRATUITO)</span>
-        </label>
-        <input
-          id="price"
-          placeholder="Valor cobrado por dia"
+        <Input
+          placeholder="Value per day (blank for free)"
           value={price}
           onChange={(event) => setPrice(event.target.value)}
         />
 
-        <Button type="submit">CADASTRAR PONTO</Button>
-      </form>
-    </Card>
+        <Button type="submit">Enter</Button>
+      </Form>
+    </Container>
   );
 };
 
-export default New;
+export default SpotForm;

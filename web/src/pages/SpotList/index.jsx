@@ -1,54 +1,47 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useAuth } from '../../contexts/auth';
 
 import api from '../../services/api';
 
-import Card from '../../components/Card';
-import Button from '../../components/Button';
+import {
+  Container, RequestContainer, Grid, SpotItem,
+} from './styles';
 
-import { WelcomeBanner, SpotRequests, SpotList } from './styles';
-
-const Spots = () => {
+const SpotList = () => {
   const [spots, setSpots] = useState([]);
   const [requests, setRequests] = useState([]);
 
-  const { user } = useAuth();
   const history = useHistory();
 
-  useEffect(async () => {
-    const bookingsResponse = await api.get('bookings', {
+  useEffect(() => {
+    api.get('bookings', {
       params: {
         status: 'pending',
       },
+    }).then((response) => {
+      setRequests(response.data);
     });
-    setRequests(bookingsResponse.data);
 
-    const spotsResponse = await api.get('spots');
-    setSpots(spotsResponse.data);
+    api.get('spots').then((response) => {
+      setSpots(response.data);
+    });
   }, []);
 
   const handleAccept = useCallback(async (id) => {
     await api.post(`bookings/${id}/approve`);
 
     setRequests(requests.filter((request) => request._id !== id));
-  }, []);
+  }, [requests]);
 
   const handleReject = useCallback(async (id) => {
     await api.post(`bookings/${id}/reject`);
 
     setRequests(requests.filter((request) => request._id !== id));
-  }, []);
+  }, [requests]);
 
   return (
-    <Card>
-      <WelcomeBanner>
-        Seja bem-vindo(a)
-        {' '}
-        {user.name}
-      </WelcomeBanner>
-
-      <SpotRequests>
+    <Container>
+      <RequestContainer>
         {requests.map((request) => {
           const date = new Date(request.date);
 
@@ -87,32 +80,22 @@ const Spots = () => {
             </div>
           );
         })}
-      </SpotRequests>
+      </RequestContainer>
 
-      <SpotList>
+      <Grid>
         {spots.map((spot) => (
-          <div key={spots._id} className="spot-item">
-            <header style={{ backgroundImage: `url(${spot.thumbnail_url})` }} />
+          <SpotItem key={spot._id} onClick={() => history.push(`/spot/${spot._id}`)}>
+            <header>
+              <img src={spot.thumbnail_url} alt="Thumbnail" />
+            </header>
 
-            <strong>{spot.name}</strong>
-            <span>{spot.price ? `R$${spot.price}/dia` : 'GRATUITO'}</span>
-
-            <button
-              type="button"
-              disabled={spot.user._id === user._id}
-              onClick={() => history.push(`/spots/${spot._id}/book`)}
-            >
-              {spot.user._id === user._id ? 'Seu ponto' : 'Solicitar reserva'}
-            </button>
-          </div>
+            <span className="title">{spot.name}</span>
+            <span className="price">{spot.price ? `R$${spot.price}/dia` : 'GRATUITO'}</span>
+          </SpotItem>
         ))}
-      </SpotList>
-
-      <Button onClick={() => history.push('/spots/new')}>
-        CADASTRAR NOVO PONTO
-      </Button>
-    </Card>
+      </Grid>
+    </Container>
   );
 };
 
-export default Spots;
+export default SpotList;
