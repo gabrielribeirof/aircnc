@@ -2,13 +2,12 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
-    --primary: #444444;
-    --border: #dddddd;
-    --border-dark: #999999;
-    --border-darker: #484848;
-
-    --salmon: #f05a5b;
-    --salmon-dark: #d94947;
+    --primary: #FF385C;
+    --primary-dark: #DC1E41;
+    --secondary: #B8B8B8;
+    --secondary-dark: #9E9E9E;
+    --border: #DDDDDD;
+    --border-dark: #484848;
   }
 
   * {
