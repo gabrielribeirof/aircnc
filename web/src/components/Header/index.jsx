@@ -47,17 +47,17 @@ const Header = () => {
       </Nav>
 
       <ActionBar>
-        {!user ? (
-          <>
-            <Action to="/signin">Login</Action>
-            <ActionHighlighted to="/signup">Sign Up</ActionHighlighted>
-          </>
-        ) : (
+        {user ? (
           <>
             <UserHighlighted onClick={() => signOut()} to="/">
               <div>{user.name.split('')[0]}</div>
               Exit
             </UserHighlighted>
+          </>
+        ) : (
+          <>
+            <Action to="/signin">Login</Action>
+            <ActionHighlighted to="/signup">Sign Up</ActionHighlighted>
           </>
         )}
       </ActionBar>
