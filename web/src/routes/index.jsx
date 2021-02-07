@@ -3,6 +3,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 
 import Route from './Route';
 
+import Home from '../pages/Home';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Spot from '../pages/Spot';
@@ -13,7 +14,7 @@ import BookingForm from '../pages/BookingForm';
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      {/* <Route component={Home} path="/" exact /> */}
+      <Route component={Home} path="/" exact />
 
       <Route component={SignIn} path="/signin" />
       <Route component={SignUp} path="/signup" />
