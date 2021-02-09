@@ -42,7 +42,7 @@ SpotSchema.virtual('bookings', {
 });
 
 SpotSchema.virtual('thumbnail_url').get(function () {
-  return `http://192.168.0.106:3333/files/${this.thumbnail}`;
+  return `${process.env.APP_BASE_URL}/files/${this.thumbnail}`;
 });
 
 module.exports = mongoose.model('Spot', SpotSchema);
