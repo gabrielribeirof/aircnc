@@ -1,4 +1,4 @@
-# API Documentation
+# API Reference
 
 This is a **RESTful API** and all responses are in JSON. Standard local base URL: `http://localhost:3333`
 
