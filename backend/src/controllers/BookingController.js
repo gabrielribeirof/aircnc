@@ -16,8 +16,6 @@ class BookingController {
         String(booking.spot.user) === user_id
       ));
 
-      console.log(userBookings);
-
       return response.send(userBookings);
     } catch (err) {
       return response.status(400).send({ error: 'Error loading bookings' });
