@@ -15,20 +15,7 @@ class App {
     this.database();
     this.middlewares();
     this.routes();
-  }
-
-  middlewares() {
-    this.server.use(express.json());
-    this.server.use(cors());
-    this.server.use(morgan('dev'));
-    this.server.use(
-      '/files',
-      express.static(resolve(__dirname, '..', 'uploads')),
-    );
-  }
-
-  routes() {
-    this.server.use(routes);
+    this.noMatchingRouteHandler();
   }
 
   database() {
@@ -40,6 +27,28 @@ class App {
         useCreateIndex: true,
       },
     );
+  }
+
+  middlewares() {
+    this.server.use(morgan('dev'));
+    this.server.use(express.json());
+    this.server.use(cors());
+    this.server.use(
+      '/files',
+      express.static(resolve(__dirname, '..', 'uploads')),
+    );
+  }
+
+  routes() {
+    this.server.use(routes);
+  }
+
+  noMatchingRouteHandler() {
+    this.server.use((request, response) => {
+      response.status(404).json({
+        error: 'Unmatched route',
+      });
+    });
   }
 }
 

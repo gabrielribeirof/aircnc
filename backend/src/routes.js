@@ -18,20 +18,18 @@ const upload = multer(uploadConfig);
 routes.post('/login', SessionController.create);
 routes.post('/users', UserController.store);
 
-routes.use(AuthMiddleware);
+routes.get('/users/:user_id', AuthMiddleware, UserController.show);
 
-routes.get('/users/:user_id', UserController.show);
+routes.get('/spots', AuthMiddleware, SpotController.index);
+routes.get('/spots/:spot_id', AuthMiddleware, SpotController.show);
+routes.post('/spots', AuthMiddleware, upload.single('file'), AuthMiddleware, SpotController.store);
+routes.delete('/spots/:spot_id', AuthMiddleware, SpotController.delete);
 
-routes.get('/spots', SpotController.index);
-routes.get('/spots/:spot_id', SpotController.show);
-routes.post('/spots', upload.single('file'), SpotController.store);
-routes.delete('/spots/:spot_id', SpotController.delete);
+routes.get('/bookings', AuthMiddleware, BookingController.index);
+routes.post('/bookings', AuthMiddleware, BookingController.store);
+routes.delete('/bookings/:booking_id', AuthMiddleware, BookingController.delete);
 
-routes.get('/bookings', BookingController.index);
-routes.post('/bookings', BookingController.store);
-routes.delete('/bookings/:booking_id', BookingController.delete);
-
-routes.post('/bookings/:booking_id/approve', ApprovalController.store);
-routes.post('/bookings/:booking_id/reject', RejectionController.store);
+routes.post('/bookings/:booking_id/approve', AuthMiddleware, ApprovalController.store);
+routes.post('/bookings/:booking_id/reject', AuthMiddleware, RejectionController.store);
 
 module.exports = routes;
