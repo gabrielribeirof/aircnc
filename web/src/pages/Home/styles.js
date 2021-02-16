@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Nav, ActionBar } from '../../components/Header/styles';
-
 import backgroundImg from '../../assets/background.jpg';
 
 export const Container = styled.div`
@@ -9,18 +7,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-image: url(${backgroundImg});
-
-  header {
-    box-shadow: none;
-
-    ${Nav} a:first-child {
-      color: #fff;
-    }
-
-    ${ActionBar} a + a ~ a {
-      color: #fff;
-    }
-  }
 
   main {
     height: calc(100% - 175px);
