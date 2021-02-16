@@ -6,7 +6,8 @@ export const Container = styled.header`
   height: 75px;
   padding: 0 80px;
 
-  box-shadow: 0 5px 4px #f4f4f4;
+  background-color: #FFF;
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.05);
 
   display: flex;
   flex-direction: row;
