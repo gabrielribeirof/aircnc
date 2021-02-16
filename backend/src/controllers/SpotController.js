@@ -6,8 +6,10 @@ const User = require('../models/User');
 
 class SpotController {
   async index(request, response) {
+    const user_id = request.userID;
+
     try {
-      const spots = await Spot.find().populate('user');
+      const spots = await Spot.find().where('user').ne(user_id);
 
       return response.send(spots);
     } catch (err) {
