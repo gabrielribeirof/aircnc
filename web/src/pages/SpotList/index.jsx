@@ -50,13 +50,13 @@ const SpotList = () => {
           return (
             <div key={request._id}>
               <span>
-                <b>{request.user.email}</b>
+                <b>{request.user.name}</b>
                 {' '}
-                está solicitando uma reserva em
+                is requesting a reservation on
                 {' '}
                 <b>{request.spot.name}</b>
                 {' '}
-                para a data:
+                for the date
                 {' '}
                 <b>{formattedDate}</b>
                 .
@@ -67,7 +67,7 @@ const SpotList = () => {
                 className="accept"
                 onClick={() => handleAccept(request._id)}
               >
-                ACEITAR
+                ACCEPT
               </button>
 
               <button
@@ -75,7 +75,7 @@ const SpotList = () => {
                 className="reject"
                 onClick={() => handleReject(request._id)}
               >
-                REJEITAR
+                REJECT
               </button>
             </div>
           );
