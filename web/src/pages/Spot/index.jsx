@@ -65,10 +65,7 @@ const Spot = () => {
           <h2>Description</h2>
 
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et dolor
-            bibendum diam ullamcorper bibendum vitae a ex. Ut in ipsum lacus. Nullam
-            dictum nisi sem, sed sagittis arcu ultricies ut. Mauris sodales nisl
-            velit. Mauris quis velit at urna bibendum viverra.
+            {spot.description}
           </p>
         </Description>
 
