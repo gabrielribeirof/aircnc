@@ -33,8 +33,13 @@ class SpotController {
 
   async store(request, response) {
     const user_id = request.userID;
-    const { name, price, tags } = request.body;
     const { filename } = request.file;
+    const {
+      name,
+      description,
+      price,
+      tags,
+    } = request.body;
 
     try {
       const user = await User.findById(user_id);
@@ -47,6 +52,7 @@ class SpotController {
       const spot = await Spot.create({
         user: user_id,
         name,
+        description,
         price,
         thumbnail: filename,
         tags: tags.split(',').map((tag) => tag.trim()),
