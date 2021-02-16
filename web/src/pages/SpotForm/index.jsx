@@ -6,6 +6,7 @@ import cameraIcon from '../../assets/camera.svg';
 
 import Form from '../../components/Form';
 import Input from '../../components/Input';
+import Textarea from '../../components/Textarea';
 import Button from '../../components/Button';
 
 import { Container, ThumbnailPreview } from './styles';
@@ -13,6 +14,7 @@ import { Container, ThumbnailPreview } from './styles';
 const SpotForm = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
   const [price, setPrice] = useState('');
 
@@ -27,6 +29,7 @@ const SpotForm = () => {
 
     data.append('file', file);
     data.append('name', name);
+    data.append('description', description);
     data.append('tags', tags);
     data.append('price', price);
 
@@ -37,7 +40,7 @@ const SpotForm = () => {
     } catch (err) {
       alert(err);
     }
-  }, [file, name, tags, price, history]);
+  }, [file, name, description, tags, price, history]);
 
   return (
     <Container>
@@ -67,6 +70,12 @@ const SpotForm = () => {
           placeholder="Value per day (blank for free)"
           value={price}
           onChange={(event) => setPrice(event.target.value)}
+        />
+
+        <Textarea
+          placeholder="Description"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
         />
 
         <Button type="submit">Enter</Button>
