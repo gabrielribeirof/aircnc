@@ -12,11 +12,15 @@ class BookingController {
         status,
       }).populate('user').populate('spot');
 
-      const userBookings = bookings.filter((booking) => (
+      if (!bookings.length > 0) {
+        return response.send(bookings);
+      }
+
+      const bookingsAtUserSpots = bookings.filter((booking) => (
         String(booking.spot.user) === user_id
       ));
 
-      return response.send(userBookings);
+      return response.send(bookingsAtUserSpots);
     } catch (err) {
       return response.status(400).send({ error: 'Error loading bookings' });
     }
